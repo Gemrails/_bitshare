@@ -166,6 +166,13 @@ unlock >>> import_key nathan 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
 > nathan恰好是在创建文件中定义的帐户名称。如果您在创建genesies.json文件后编辑了自己的文件，可以在其中添加一个不同的名称。
 另请注意，5KQwrPbwdL ... P79zkvFD3是在config.ini文件中定义的私钥。
 
+现在我们将私钥导入到钱包中，但仍然没有与之相关的资金。资金存储在创世平衡对象中。这些资金可以使用import_balance命令免费索取
+```
+import_balance nathan ["5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"] true
+
+```
+
+查看账户
 ```
 >>> get_account nathan
 >>> list_account_balances nathan
@@ -178,6 +185,7 @@ unlock >>> import_key nathan 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
 ```
 upgrade_account nathan true
 ```
+
 ##### Node
 > 由于已知的缓存问题，您需要在此阶段重新启动CLI，否则它不会意识到nathan已升级。ctrl-c，依照前序命令重新运行cli-wallet
 
@@ -186,6 +194,28 @@ upgrade_account nathan true
 get_account nathan
 ```
 > 在membership_expiration_date项应该看到1969-12-31T23：59：59。否则还没有成功升级。
+显示如下：
+```
+unlocked >>> get_account nathan
+get_account nathan
+{
+  "id": "1.2.17",
+  "membership_expiration_date": "1969-12-31T23:59:59",
+  "registrar": "1.2.17",
+  "referrer": "1.2.17",
+  "lifetime_referrer": "1.2.17",
+  "network_fee_percentage": 2000,
+  "lifetime_referrer_fee_percentage": 8000,
+  "referrer_rewards_percentage": 0,
+  "name": "nathan",
+  "owner": {
+    "weight_threshold": 1,
+    "account_auths": [],
+    "key_auths": [[
+        "BTS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
+        1
+      ]
+```
 
 首先我们需要掌握新帐户的公钥。
 我们通过使用suggest_brain_key命令来完成它：
@@ -216,7 +246,8 @@ transfer nathan pujielan 2000000000 BTS "here is some cash" true
 查看pujielan账户，可以看到余额
 
 ```
-list_account_balances pujielan
+unlocked >>> list_account_balances pujielan
+2000000000 BTS
 ```
 
 ## web钱包应用搭建
