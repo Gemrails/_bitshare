@@ -147,7 +147,7 @@ cd /etc/insur/run_test
 cli_wallet --wallet-file=my-wallet.json --chain-id=fd7e8d9e32ccbc7aea83d7786c9700e84b9fd97e8d01607c03fc15564823a107 --server-rpc-endpoint=ws://127.0.0.1:8090
 ```
 
-> chain-id 需要替换为上文中节点启动时日志中显示的chain-id, 或者不添加此参数启动，可以从报错信息中看到该提示
+> chain-id 需要替换为上文中节点启动时日志中显示的chain-id, 或者不添加此参数启动，可以从报错信息中看到该提示, ws中的地址config中定义的rpc端口地址
 
 ### 创建新钱包 
 在上述步骤的命令行模式继续执行如下命令：
@@ -168,7 +168,63 @@ unlock >>> import_key nathan 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
 >>> list_account_balances nathan
 ```
 
+### 创建新账户
 
+> 创建新账户通常需要使用已经存在的账户进行，因为有人（即注册服务商）必须为注册费用提供资金。因此，我们需要将帐户nathan升级为LTM，然后才能继续创建其他帐户。要升级到LTM，请使用upgrade_account命令
+
+```
+upgrade_account nathan true
+```
+##### Node
+> 由于已知的缓存问题，您需要在此阶段重新启动CLI，否则它不会意识到nathan已升级。ctrl-c，依照前序命令重新运行cli-wallet
+
+查看nathan账户，已经拥有了LTM权限
+```
+get_account nathan
+```
+> 在membership_expiration_date项应该看到1969-12-31T23：59：59。否则还没有成功升级。
+
+首先我们需要掌握新帐户的公钥。
+我们通过使用suggest_brain_key命令来完成它：
+```
+suggest_brain_key
+```
+返回如下:
+> suggest_brain_key
+{
+  "brain_priv_key": "MYAL SOEVER UNSHARP PHYSIC JOURNEY SHEUGH BEDLAM WLOKA FOOLERY GUAYABA DENTILE RADIATE TIEPIN ARMS FOGYISH COQUET",
+  "wif_priv_key": "5JDh3XmHK8CDaQSxQZHh5PUV3zwzG68uVcrTfmg9yQ9idNisYnE",
+  "pub_key": "BTS78CuY47Vds2nfw2t88ckjTaggPkw16tLhcmg4ReVx1WPr1zRL5"
+}
+
+复制上述命令生成的brain_priv_key, 到下面的命令中创建账户：
+```
+create_account_with_brain_key "MYAL SOEVER UNSHARP ... ... ARMS FOGYISH COQUET" <accountname> nathan nathan true
+```
+
+账号创建成功后，可以从nathan中转账给新用户
+```
+transfer nathan pujielan 2000000000 BTS "here is some cash" true
+```
+> `“here is some cash”` 是携带的转账信息，如果不需要刻意为空 `""` 
+
+查看pujielan账户，可以看到余额
+
+```
+list_account_balances pujielan
+```
+
+## web钱包应用搭建
+to be continue...
+
+## 注册水龙头服务搭建
+to be continue...
+
+## 多节点搭建 
+to be continue...
+
+## 接口应用
+to be continue...
  
 
 
