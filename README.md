@@ -36,10 +36,13 @@ nohup bash build.sh &
 
 + 创建一个名为`genesis.json`的新创世文件
 
-> mkdir /etc/insur/run_test
-> cd /etc/insur/run_test
-> witness_node --create-genesis-json=genesis.json
-
+```
+mkdir /etc/insur/run_test
+ 
+cd /etc/insur/run_test
+ 
+witness_node --create-genesis-json=genesis.json
+```
 
 修改这个文件可以更改网络的初始状态，它可以控制如下
 1. 创世账户及公钥 
@@ -90,7 +93,7 @@ level=info
 appenders=p2p
 ```
 
-修改完config文件后，重新启动节点命令
++ 修改完config文件后，重新启动节点命令
 
 > nohup witness_node --data-dir=data --genesis-json=genesis.json &
 
@@ -190,12 +193,14 @@ get_account nathan
 suggest_brain_key
 ```
 返回如下:
-> suggest_brain_key
+```
+suggest_brain_key
 {
   "brain_priv_key": "MYAL SOEVER UNSHARP PHYSIC JOURNEY SHEUGH BEDLAM WLOKA FOOLERY GUAYABA DENTILE RADIATE TIEPIN ARMS FOGYISH COQUET",
   "wif_priv_key": "5JDh3XmHK8CDaQSxQZHh5PUV3zwzG68uVcrTfmg9yQ9idNisYnE",
   "pub_key": "BTS78CuY47Vds2nfw2t88ckjTaggPkw16tLhcmg4ReVx1WPr1zRL5"
 }
+```
 
 复制上述命令生成的brain_priv_key, 到下面的命令中创建账户：
 ```
